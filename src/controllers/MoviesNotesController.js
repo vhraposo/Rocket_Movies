@@ -24,6 +24,12 @@ class MoviesNotesController{
       return response.json()
 
     }
+
+    async show(request, response){
+      const { id } = request.params
+
+      const movieNote = await knex()
+    }
 }
 
 module.exports = MoviesNotesController
