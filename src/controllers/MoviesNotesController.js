@@ -44,6 +44,17 @@ class MoviesNotesController{
 
       return response.json()
     }
+
+    async index(request, response){
+      const { user_id } = request.query
+
+
+      const movies_notes = await knex("movies_notes")
+      .where({ user_id })
+      .orderBy("title")
+
+      return response.json(movies_notes)
+    }
 }
 
 module.exports = MoviesNotesController
