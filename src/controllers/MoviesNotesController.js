@@ -46,14 +46,22 @@ class MoviesNotesController{
     }
 
     async index(request, response){
-      const { title, user_id } = request.query
+      const { title, user_id, tags } = request.query
 
+      let movies_notes
 
-      const movies_notes = await knex("movies_notes")
-      .where({ user_id })
-      .whereLike("title", `%${title}%`)
-      .orderBy("title")
-
+      if (movies_notes) {
+        const filterTags = tags.split(',').map(tag => tag.trim())
+  
+        movies_notes = await knex("tags")
+          .whereIn("name", filterTags)
+          
+      } else {
+        movies_notes = await knex("movies_notes")
+        .where({ user_id })
+        .whereLike("title", `%${title}%`)
+        .orderBy("title")
+      }
       return response.json(movies_notes)
     }
 }
